@@ -18,13 +18,6 @@ import static org.quicktheories.quicktheories.QuickTheory.qt;
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
 public class Pbt {
-    private static final Object NULL = new Object() {
-        @Override
-        public String toString() {
-            return "<n/a>";
-        }
-    };
-
     private List<KeyedSource> sources = new ArrayList<>();
     private List<Consumer<Context>> consumers = new ArrayList<>();
 
@@ -84,42 +77,42 @@ public class Pbt {
             this.consumers = consumers;
         }
 
+        private void invokeConsumers(Context ctx) {
+            consumers.forEach(c -> c.accept(ctx));
+        }
+
         @Override
         public void accept(Object o1) {
-            System.out.println("Pbt.checker(" + o1 + ")");
             Context ctx = new Context();
             ctx.set(sources.get(0).key, o1);
-            consumers.forEach(c -> c.accept(ctx));
+            invokeConsumers(ctx);
         }
 
         @Override
         public void accept(Object o1, Object o2) {
-            System.out.println("Pbt.checker(" + o1 + "," + o2 + ")");
             Context ctx = new Context();
             ctx.set(sources.get(0).key, o1);
             ctx.set(sources.get(1).key, o2);
-            consumers.forEach(c -> c.accept(ctx));
+            invokeConsumers(ctx);
         }
 
         @Override
         public void accept(Object o1, Object o2, Object o3) {
-            System.out.println("Pbt.checker(" + o1 + "," + o2 + "," + o3 + ")");
             Context ctx = new Context();
             ctx.set(sources.get(0).key, o1);
             ctx.set(sources.get(1).key, o2);
             ctx.set(sources.get(2).key, o3);
-            consumers.forEach(c -> c.accept(ctx));
+            invokeConsumers(ctx);
         }
 
         @Override
         public void accept(Object o1, Object o2, Object o3, Object o4) {
-            System.out.println("Pbt.checker(" + o1 + "," + o2 + "," + o3 + "," + o4 + ")");
             Context ctx = new Context();
             ctx.set(sources.get(0).key, o1);
             ctx.set(sources.get(1).key, o2);
             ctx.set(sources.get(2).key, o3);
             ctx.set(sources.get(3).key, o4);
-            consumers.forEach(c -> c.accept(ctx));
+            invokeConsumers(ctx);
         }
     }
 
